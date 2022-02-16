@@ -1,0 +1,16 @@
+//Define the task structure
+
+export interface Task{
+    id:string
+    title:string
+    description:string
+    status:Taskstatus
+
+}
+
+export enum Taskstatus{
+    OPEN="OPEN",
+    IN_PROGRESS="IN_PROGRESS",
+    DONE="DONE",
+    CANCELLED="CANCELLED"
+}
