@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { stringify } from 'querystring';
 import { CreateTaskDTO } from '../tasks/create.task.dto';
 import { SearchTaskDTO } from '../tasks/search.task.dto';
-import { Taskstatus } from '../tasks/tasks.model';
+import { Taskstatus } from '../tasks/task.enum';
 import { TasksService } from '../tasks/tasks.service';
 
 @Controller('taskmanagement')
@@ -18,6 +18,7 @@ export class TaskmanagementController {
     }
 
     @Post()
+    @UsePipes(ValidationPipe)
     public createtask(@Body() CreateTaskDTO:CreateTaskDTO){
         //1.Create a new task 
         //2.Return all tasks

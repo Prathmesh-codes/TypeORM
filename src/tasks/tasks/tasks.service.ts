@@ -1,93 +1,41 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { CreateTaskDTO } from './create.task.dto';
-import { Task, Taskstatus } from './tasks.model';
+import {  Taskstatus } from './task.enum';
 import * as uuid from 'uuid';
 import { SearchTaskDTO } from './search.task.dto';
 import { NotFoundError } from 'rxjs';
+import { TaskRepository } from './task.repisitory';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class TasksService {
 
-    private tasks: Task[]=[];
+    //Add dependency for task repo
 
+constructor(@InjectRepository(TaskRepository) private taskRepository:TaskRepository,){}
     
 
     createtask(CreateTaskDTO:CreateTaskDTO){
-        //generate new id
-        const newid= uuid.v1()
         
-        //create a new task
-        const task:Task={
-            id:newid,
-            title: CreateTaskDTO.title,
-            description:CreateTaskDTO.description,
-            status:Taskstatus.OPEN,
-        };
+        //get a new row created for the task
+        return this.taskRepository.createTask(CreateTaskDTO);
 
-        //add task to task list
-        this.tasks.push(task);
-        return this.tasks;
-    }
+     }
 
-    getTasks(searchTaskDTO:SearchTaskDTO){
-       const{search,status}=searchTaskDTO;
-       let tasks=this.tasks
 
-       //if the user has passed a search criteria search the task matching criteria
+    async getTasks(searchTaskDTO:SearchTaskDTO){
+     
 
-       if (search){
 
-        tasks=tasks.filter(task=>{
-           return task.title.includes(search) || task.description.includes(search); 
-        })
+        return this.taskRepository.getTasks(searchTaskDTO);
+      
+        }
 
-       }
+updatetaskstatus(id:string, status:Taskstatus){}
 
-       if (search){
-
-        tasks=tasks.filter(task=>{
-           return task.status==status;
-        })
-
-       }
-
-       return tasks;
+deletetask(id:string){}
 
     }
 
-
-
-updatetaskstatus(id:string, status:Taskstatus){
-    const task=this.tasks.find((task)=>{
-        return task.id==id;
-    });
-
-    if(!task){
-        throw new NotFoundException('Task not found');
-    }
-
-    task.status=status
-    return task;
-}
-
-deletetask(id:string){
-    //delete the task with the id
-
-    const task=this.tasks.find((task)=>{
-        return task.id==id;
-    });
-
-    if(!task){
-        throw new NotFoundException('Task not found');
-    }
-
-    this.tasks=this.tasks.filter(task=>task.id!=id);
-
-    
-    return this.tasks;
-
-
-}
-}
 
