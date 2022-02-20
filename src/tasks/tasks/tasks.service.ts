@@ -32,10 +32,47 @@ constructor(@InjectRepository(TaskRepository) private taskRepository:TaskReposit
       
         }
 
-updatetaskstatus(id:string, status:Taskstatus){}
 
-deletetask(id:string){}
+async getTaskById(id:string){
+    //Select * from task where id ={id}
+  const task = await this.taskRepository.findOne(id); 
+
+  if(!task){
+      throw new NotFoundException('Task not found')
+  }
+
+  return task;
+}
+
+
+async updatetaskstatus(id:string, status:Taskstatus){
+
+//Find the task by id
+const task=await this.getTaskById(id);
+
+//Update the status 
+task.status= status;
+
+//Save the changes 
+await task.save();
+
+return task;
+}
+
+async deletetask(id:string){
+
+    //Try deleting the task with id
+     
+    const result=await this.taskRepository.delete(id);
+
+    //If affected rows are>0 =success
+    if(result.affected==0){
+        throw new NotFoundException('No task found');
+    }
+    return result;
+
 
     }
+}
 
 

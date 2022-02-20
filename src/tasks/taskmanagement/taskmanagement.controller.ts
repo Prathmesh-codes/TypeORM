@@ -38,8 +38,7 @@ export class TaskmanagementController {
 
     @Patch('/:id/status')
     public updatetaskstatus(
-
-        @Param('id') id:string,
+       @Param('id') id:string,
         @Param('status')status:Taskstatus)
         {
 
