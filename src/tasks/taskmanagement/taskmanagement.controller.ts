@@ -36,15 +36,15 @@ export class TaskmanagementController {
 
     }
 
-    @Patch('/:id/status')
-    public updatetaskstatus(
-       @Param('id') id:string,
-        @Param('status')status:Taskstatus)
-        {
-
-             return this.taskService.updatetaskstatus(id,status);
-
-        }
+  
+    @Patch('/:id/:status')
+    updateTaskStatus(
+      
+      @Param('id') id: string,
+      @Param('status') status: Taskstatus,
+    ) {
+      return this.taskService.updateTaskStatus(id, status);
+    }
 
     
 
