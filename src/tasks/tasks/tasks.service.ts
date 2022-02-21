@@ -33,31 +33,28 @@ constructor(@InjectRepository(TaskRepository) private taskRepository:TaskReposit
         }
 
 
-async getTaskById(id:string){
-    //Select * from task where id ={id}
-  const task = await this.taskRepository.findOne(id); 
-
-  if(!task){
-      throw new NotFoundException('Task not found')
-  }
-
-  return task;
-}
-
-
-async updatetaskstatus(id:string, status:Taskstatus){
-
-//Find the task by id
-const task=await this.getTaskById(id);
-
-//Update the status 
-task.status= status;
-
-//Save the changes 
-await task.save();
-
-return task;
-}
+        async getTaskById(id: string) {
+            // select * from Task where id = {id}
+            const task = await this.taskRepository.findOne(id);
+            if (!task) {
+              throw new NotFoundException('task not found');
+            }
+        
+            return task;
+          }
+        
+          async updateTaskStatus(id: string, status: Taskstatus) {
+            // find the task by id
+            const task = await this.getTaskById(id);
+        
+            // update the status
+            task.status = status;
+        
+            // save the changes
+            await task.save();
+        
+            return task;
+          }
 
 async deletetask(id:string){
 
