@@ -1,3 +1,4 @@
+import { UserEntity } from "src/user/user/user.entity";
 import { EntityRepository, Repository } from "typeorm";
 import { CreateTaskDTO } from "./create.task.dto";
 import { SearchTaskDTO } from "./search.task.dto";
@@ -39,13 +40,14 @@ return await query.getMany();
 }
 
 
-async createTask(CreateTaskDTO:CreateTaskDTO){
+async createTask(CreateTaskDTO:CreateTaskDTO,user:UserEntity){
 
 //Create a row in task table(Task Entity)
 const task=new TaskEntity()
 task.title=CreateTaskDTO.title
 task.description=CreateTaskDTO.description
 task.status=Taskstatus.OPEN
+task.user=user;
 
 //Create a new row in the task table
 await task.save();

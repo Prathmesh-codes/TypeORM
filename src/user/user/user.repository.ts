@@ -26,13 +26,19 @@ const user=await this.findOne({username:username});
 
 //Check if user exists
 
-if(user && (await user.validatePassword(password))){
 
-    return true;
+
+if(!user){
+
+    return null;
 }
 
-return false;
+const passwordValidation=user.validatePassword(password);
+if(!passwordValidation){
+  return null;  
+}
 
+return user;
 
 }
 

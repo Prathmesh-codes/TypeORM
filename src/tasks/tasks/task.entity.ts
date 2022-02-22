@@ -1,4 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { UserModule } from "src/user/user.module";
+import { UserEntity } from "src/user/user/user.entity";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Taskstatus } from "./task.enum";
 
 
@@ -16,5 +18,11 @@ description:string;
 
 @Column()
 status:Taskstatus;
+
+@ManyToOne(type=>UserEntity, user=>user.tasks,{eager:false})
+user: UserEntity;
+
+@Column()
+userId: number;
 
 }
