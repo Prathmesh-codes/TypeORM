@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from 'src/user/user.module';
 import { TaskmanagementController } from './taskmanagement/taskmanagement.controller';
 import { TaskRepository } from './tasks/task.repisitory';
 import { TasksService } from './tasks/tasks.service';
@@ -8,7 +9,7 @@ import { TasksService } from './tasks/tasks.service';
 
   //use typeorm to create the table task using repo
 
-  imports:[TypeOrmModule.forFeature([TaskRepository])],
+  imports:[TypeOrmModule.forFeature([TaskRepository]), UserModule],
   
   controllers: [TaskmanagementController],
   providers: [TasksService]

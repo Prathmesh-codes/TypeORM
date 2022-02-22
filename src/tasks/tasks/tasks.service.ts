@@ -7,6 +7,7 @@ import { SearchTaskDTO } from './search.task.dto';
 import { NotFoundError } from 'rxjs';
 import { TaskRepository } from './task.repisitory';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from 'src/user/user/user.entity';
 
 @Injectable()
 export class TasksService {
@@ -16,10 +17,10 @@ export class TasksService {
 constructor(@InjectRepository(TaskRepository) private taskRepository:TaskRepository,){}
     
 
-    createtask(CreateTaskDTO:CreateTaskDTO){
+    createtask(CreateTaskDTO:CreateTaskDTO,user:UserEntity){
         
         //get a new row created for the task
-        return this.taskRepository.createTask(CreateTaskDTO);
+        return this.taskRepository.createTask(CreateTaskDTO,user);
 
      }
 
